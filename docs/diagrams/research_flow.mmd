@@ -1,0 +1,13 @@
+flowchart TD
+    A[Identify Problem] --> B[Formulate Research Questions and Objectives]
+    B --> C[Literature Study]
+    C --> D[Collect Indonesian News Data - Tempo.co and Liputan6.com]
+    D --> E[Build NLI Dataset - premise-hypothesis pairs]
+    E --> F[Preprocessing - text cleaning plus deduplication]
+    F --> G[Run 3 Pipeline Scenarios - Highlight / First Sentence / Last Sentence]
+    G --> H[Entailment-based Extractive Selection]
+    H --> I[Concatenate Selected Sentences]
+    I --> J[Abstractive Summarization with IndoT5]
+    J --> K[Evaluate Pipeline - ROUGE plus Human Evaluation]
+    K --> L[Implement Web-based System - FastAPI plus Streamlit]
+    L --> M[Analyze Results and Draw Conclusions]

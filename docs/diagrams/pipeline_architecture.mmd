@@ -1,0 +1,28 @@
+flowchart TD
+    subgraph S1[1. Data Collection]
+        A1[Web Scraping - BeautifulSoup] --> A2[(Raw Data - MongoDB)]
+    end
+
+    subgraph S2[2. NLI Dataset Construction]
+        A2 --> B1[Split into Paragraphs and Sentences]
+        B1 --> B2[Assign Sentence/Paragraph IDs]
+        B2 --> B3[Build Premise-Hypothesis Pairs]
+    end
+
+    subgraph S3[3. Preprocessing]
+        B3 --> C1[Text Cleaning]
+        C1 --> C2[Drop Duplicate Pairs]
+    end
+
+    subgraph S4[4. Pipeline and Evaluation]
+        C2 --> D0{Choose Premise Strategy}
+        D0 -->|Highlight| D1[IndoBERT-RTE Entailment Classification]
+        D0 -->|First Sentence| D1
+        D0 -->|Last Sentence| D1
+        D1 --> D2[Select Entailed Sentences]
+        D2 --> D3[Concatenate and Group by Document]
+        D3 --> D4[IndoT5 Abstractive Summarization]
+        D4 --> D5[Evaluate: ROUGE-1/2/L plus Human Evaluation]
+    end
+
+    D5 --> E1[Final Hybrid Summary]

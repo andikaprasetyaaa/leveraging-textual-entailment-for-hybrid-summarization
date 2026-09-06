@@ -1,0 +1,28 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.env
+.env.*
+
+# Local model checkpoints and experiment artifacts
+models/
+checkpoints/
+*.bin
+*.pt
+*.pth
+*.safetensors
+
+# Frontend dependencies and build output
+web/node_modules/
+web/dist/
+
+# Local notebook/runtime metadata
+.ipynb_checkpoints/
+*.log
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/

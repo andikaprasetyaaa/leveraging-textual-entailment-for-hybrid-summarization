@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+streamlit
+transformers
+torch
+pymongo
+beautifulsoup4
+rouge-score
+pandas
+nltk
+scikit-learn

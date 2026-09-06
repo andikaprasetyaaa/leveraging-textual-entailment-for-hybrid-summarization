@@ -1,0 +1,8 @@
+flowchart LR
+    U[User] -->|Enter or paste article| FE[Streamlit Frontend]
+    FE -->|HTTP POST /summarize| BE[FastAPI Backend]
+    BE --> M1[IndoBERT-RTE Entailment Selection]
+    M1 --> M2[IndoT5 Abstractive Generation]
+    M2 -->|JSON response| BE
+    BE -->|Summary plus stats plus selected sentences| FE
+    FE -->|Render results| U
