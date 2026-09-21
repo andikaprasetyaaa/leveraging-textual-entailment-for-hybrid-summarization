@@ -22,8 +22,10 @@
 # ========================================================================
 
 import math
+import json
 import nltk
 import uvicorn
+from pathlib import Path
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -62,6 +64,31 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/dataset-compare/{doc_id}")
+def compare_saved_summaries(doc_id: str):
+    """Compare saved SeaLLM and IndoT5 first-sentence outputs by document id."""
+    sources = {
+        "seallm": Path(__file__).parent / "1_final_summary_first_sentences_liputan6_seallm.jsonl",
+        "indot5": Path(__file__).parent / "Liputan6" / "Data" / "1_final_summary_first_sentences_liputan6.jsonl",
+    }
+    result = {"doc_id": doc_id}
+    for name, path in sources.items():
+        if not path.exists():
+            raise HTTPException(status_code=404, detail=f"Dataset {name} tidak ditemukan.")
+        with path.open(encoding="utf-8") as dataset:
+            for line in dataset:
+                record = json.loads(line)
+                if str(record.get("doc_id")) == doc_id:
+                    result[name] = {
+                        "title": record.get("title", ""),
+                        "summary": record.get("Abstractive_Summary", record.get("summary", "")),
+                    }
+                    break
+        if name not in result:
+            raise HTTPException(status_code=404, detail=f"Doc ID {doc_id} tidak ada di dataset {name}.")
+    return result
 
 
 # ========================================================================
